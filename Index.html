@@ -1,0 +1,118 @@
+<html>
+  <head>
+    <title>Bienvenido Rides</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.session.js"></script>
+    <script type="text/javascript" src="/scripts/socket.io.min.js"> </script>
+    <script src="/scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="/scripts/gritter/jquery.gritter.min.js" type="text/javascript"></script>
+    <script src="/scripts/json2.js" type="text/javascript"></script>
+    <link href="/Styles/gritter/jquery.gritter.css" rel="stylesheet" type="text/css" />
+    <link href='assets/css/normalize.css' rel='stylesheet' type='text/css'>
+    <link href='assets/css/foundation.min.css' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <link href='assets/css/out.css' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+
+    jQuery(document).ready(function () {
+    $(document).on("ready", onNotifyInit);
+
+
+    var objGuest = null;
+    //var websocket = io.connect('http://192.161.19.242:443');
+
+    ///Metodos para NodeJs
+    function onNotifyInit() {
+    websocket.on("sendEvent", getMessage);
+    }
+    function getMessage(notifyFromServer) {
+
+    //gritter
+    var unique_id = $.gritter.add({
+    // (string | mandatory) the heading of the notification
+    title: notifyFromServer.title,
+    // (string | mandatory) the text inside the notification
+    text: notifyFromServer.message + notifyFromServer.phone + notifyFromServer.mail,
+    // (string | optional) the image to display on the left
+    image: notifyFromServer.urlImage,
+    // (bool | optional) if you want it to fade out on its own or just sit there
+    sticky: true,
+    // (int | optional) the time you want it to be alive for before fading out
+    time: '',
+    // (string | optional) the class name you want to apply to that specific message
+    class_name: 'my-sticky-class'
+    });
+    }
+
+    url = "http://192.168.1.143/IISHostService1/CustomerService.svc/DetallesUsuario/"+$.session.get('UsId')+"?callback=?"
+    $.ajax({
+    url: url,
+    type: 'get',
+    dataType: 'jsonp',
+    success: function(data) {
+
+    $('#Nombre').text(data.Nombre);
+    $('#APaterno').text(data.APaterno);
+    $('#AMaterno').text(data.AMaterno);
+    $('#Amigos').text(data.Amigos);
+    $('#Mensajes').text(data.Mensajes);
+    $('#Descripcion').text(data.Descripcion);
+    $('#Referencias').text(data.Referencias);
+    }
+    });
+
+
+    jQuery('#UploadFiles').click(function () {
+    $(location).attr('href',"UploadFile.html");
+    });
+
+    });
+    </script>
+  </head>
+
+  <body>
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="#">Rides & Host</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon">
+          <a href="#">
+            <span>Menu</span>
+          </a>
+        </li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="right">
+          <li>
+            <a href="jquerylogin.html">Logout</a>
+          </li>
+        </ul> <!-- Left Nav Section -->
+        <ul class="left">
+          <li class="active">
+            <a href="#">Imagenes</a>
+          </li>
+        </ul>
+      </section>
+    </nav>
+    <div class="row">
+      <div class="large-12 columns">
+        <h1>Rides & Host</h1>
+      </div>
+    </div>
+    <div class="row panel">
+      <span id="Nombre">' '</span><br />
+      <span id="APaterno">' '</span><br />
+      <span id="AMaterno">' '</span><br />
+      <span id="Amigos">' '</span><br />
+      <span id="Mensajes">' '</span><br />
+      <span id="Descripcion">' '</span><br />
+      <span id="Referencias">' '</span><br />
+      <input id="UploadFiles" type="button" class="button" value="Agregar imagen" />
+    </div>
+    <script src="assets/js/foundation.min.css" type="text/javascript"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Subir archivo ..</title>
+<link href='assets/css/normalize.css' rel='stylesheet' type='text/css'>
+<link href='assets/css/foundation.min.css' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+<link href='assets/css/out.css' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="#">Rides & Host</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon">
+        <a href="#">
+          <span>Menu</span>
+        </a>
+      </li>
+    </ul>
+    <section class="top-bar-section">
+      <ul class="right">
+        <li class="">
+          <a href="index.html">Login</a>
+        </li>
+      </ul> <!-- Left Nav Section -->
+      <ul class="left">
+        <li class="active">
+          <a href="index.html">Imagenes</a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div class="row">
+    <h1>Ingresa tu imagen</h1>
+    <form enctype="multipart/form-data" action="upload.php" method="POST">
+    <input type="hidden" name="MAX_FILE_SIZE" value="512000" />
+    <span>Enviar archivo:</span> <input name="userfile" type="file" />
+    <input type="submit" class="button" value="Send File" />
+  </div>
+</form>
+
+
+
+
+</form>
+
+
+
+
+
+</body>
+</html>

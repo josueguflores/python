@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+    <title>Iniciar sesión</title>
+    <link href='assets/css/normalize.css' rel='stylesheet' type='text/css'>
+    <link href='assets/css/foundation.min.css' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <link href='assets/css/out.css' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.session.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#getCustomers').click(function () {
+                // Evento Click del Button
+                var customersList = jQuery('#customersList');
+                customersList.empty();
+                jQuery('<li>Start Loading Customers</li>').appendTo(customersList);
+                // Llamada al Metodo de WCF con JSONP
+                var password=$('#txtFirstName').val()
+                 var usuario=$('#txtUsuario').val()
+
+                jQuery.getJSON('http://192.168.1.143/IISHostService1/CustomerService.svc/Login/'+usuario+'/'+password+'?callback=?',
+                                null,
+                                function (customers) {
+
+                                    alert(customers.Estado);
+                                    if(customers.Estado=="True"){
+                                    $.session.set("UsId",customers.IdUsuario);
+                                    $(location).attr('href',"Index.html");
+                                    }else{
+                                    alert("Usuario Y/o Contraseña Invalidos");
+                                    }
+
+                                    customersList.empty();
+                                    jQuery.each(customers, function () {
+                                        jQuery('<li>' + this.CustomerID + ' - ' +
+                                                        this.ContactName
+                                                        + '</li>').appendTo(customersList);
+                                    });
+                                });
+
+            });
+        });
+    </script>
+</head>
+<body>
+  <nav class="top-bar" data-topbar>
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="#">Rides & Host</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon">
+        <a href="#">
+          <span>Menu</span>
+        </a>
+      </li>
+    </ul>
+    <section class="top-bar-section">
+      <ul class="right">
+        <li class="active">
+          <a href="index.html">Login</a>
+        </li>
+      </ul> <!-- Left Nav Section -->
+      <ul class="left">
+        <li class="">
+          <a href="index.html">Imagenes</a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div class="row">
+    <h1>Iniciar sesión</h1>
+     <fieldset>
+      <label for="txtUsuario">Usuario:</label>
+      <input type="text" id="txtUsuario" />
+      <label for="txtFirstName">Password Name:</label>
+      <input type="text" id="txtFirstName" />
+      <input id="getCustomers" type="button" class="button" value="Obtener Usuarios" />
+      <ul id="customersList">
+          <li>
+
+          </li>
+      </ul>
+    </fieldset>
+  </div>
+  <script src="assets/js/foundation.min.css" type="text/javascript"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>
